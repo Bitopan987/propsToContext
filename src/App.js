@@ -1,13 +1,14 @@
-import React from "react";
-import Header from "./Header";
-import Main from "./Main";
-import Sidebar from "./Sidebar";
-import Auth from "./Auth";
-import articles from "./data.json";
-import people from "./got.json";
-import "./styles.css";
-import verifyLogin from "./utils";
-import ErrorBoundary from "./ErrorBoundary";
+import React from 'react';
+import Header from './Header';
+import Main from './Main';
+import Sidebar from './Sidebar';
+import Auth from './Auth';
+import articles from './data.json';
+import people from './got.json';
+import './styles.css';
+import verifyLogin from './utils';
+import ErrorBoundary from './ErrorBoundary';
+import { dataContext } from './context/dataContext';
 
 export default class App extends React.Component {
   state = {
@@ -16,7 +17,7 @@ export default class App extends React.Component {
     isModalOpen: false,
     data: null,
     userInfo: null,
-    people: people
+    people: people,
   };
 
   changeNavbar = () => {
@@ -32,7 +33,7 @@ export default class App extends React.Component {
       this.setState({
         isLogin: true,
         userInfo: res,
-        data: articles
+        data: articles,
       });
     });
   };
@@ -41,36 +42,31 @@ export default class App extends React.Component {
     this.setState({
       isLogin: false,
       data: null,
-      people: null
+      people: null,
     });
   };
 
   render() {
-    const { isLogin, data, userInfo } = this.state;
-
     return (
-      <div className={`container ${this.state.navClosed ? "nav-closed" : ""}`}>
-        <Header
-          isLogin={isLogin}
-          changeNavbar={this.changeNavbar}
-          logoutHandler={this.logoutHandler}
-          handleModal={this.handleModal}
-          userInfo={userInfo}
-        />
-        <div className="main">
-          <Sidebar userInfo={userInfo} isLogin={isLogin} />
-          <ErrorBoundary>
-            <Main isLogin={isLogin} data={data} people={people} userInfo={userInfo} />
-          </ErrorBoundary>
-        </div>
-        {this.state.isModalOpen ? (
-          <Auth
-            handleModal={this.handleModal}
-            loginHandler={this.loginHandler}
-          />
-        ) : (
-          ""
-        )}
+      <div className={`container ${this.state.navClosed ? 'nav-closed' : ''}`}>
+        <dataContext.Provider
+          value={{
+            data: this.state,
+            changeNavbar: this.changeNavbar,
+            logoutHandler: this.logoutHandler,
+            handleModal: this.handleModal,
+            loginHandler: this.loginHandler,
+          }}
+        >
+          <Header />
+          <div className="main">
+            <Sidebar />
+            <ErrorBoundary>
+              <Main />
+            </ErrorBoundary>
+          </div>
+          {this.state.isModalOpen ? <Auth /> : ''}
+        </dataContext.Provider>
       </div>
     );
   }

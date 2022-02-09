@@ -1,15 +1,18 @@
-import React from "react";
+import React from 'react';
+import { dataContext } from './context/dataContext';
 
 class Auth extends React.Component {
   state = {
-    email: "",
-    password: ""
+    email: '',
+    password: '',
   };
   handleInput = ({ target: { name, value } }) => {
     this.setState({ [name]: value });
   };
+
+  static contextType = dataContext;
   render() {
-    let { loginHandler, handleModal } = this.props;
+    let { loginHandler, handleModal } = this.context;
     return (
       <div className="auth">
         <form

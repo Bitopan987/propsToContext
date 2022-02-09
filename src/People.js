@@ -1,34 +1,40 @@
-import { Component } from "react";
-import ShowPeople from "./ShowPeople";
+import { Component } from 'react';
+import ShowPeople from './ShowPeople';
+import { dataContext } from './context/dataContext';
 
 class People extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showPeopleClosed: true
-    }
+      showPeopleClosed: true,
+    };
   }
 
   toggleHandler = () => {
-    this.setState((prev) => ({showPeopleClosed: !prev.showPeopleClosed}))
-  }
-
-  render () {
-    const { isLogin, people } = this.props;
-
+    this.setState((prev) => ({ showPeopleClosed: !prev.showPeopleClosed }));
+  };
+  static contextType = dataContext;
+  render() {
+    let { isLogin, people } = this.context.data;
     if (!(isLogin && people)) {
-		throw new Error("Auth Failed");
+      throw new Error('Auth Failed');
     }
 
     return (
-			<>
+      <>
         <h1 className="center">🚀 Welcome to People page!</h1>
         <div className="center">
-          <button className="show-people" onClick={this.toggleHandler}>Show People</button>
+          <button className="show-people" onClick={this.toggleHandler}>
+            Show People
+          </button>
         </div>
-        {this.state.showPeopleClosed ? "" : <ShowPeople people={people} toggleHandler={this.toggleHandler} />}
-			</>
-		);
+        {this.state.showPeopleClosed ? (
+          ''
+        ) : (
+          <ShowPeople people={people} toggleHandler={this.toggleHandler} />
+        )}
+      </>
+    );
   }
 }
 

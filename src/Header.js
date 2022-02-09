@@ -1,13 +1,11 @@
-import UserInfo from "./UserInfo";
+import UserInfo from './UserInfo';
+import { useContext } from 'react';
+import { dataContext } from './context/dataContext';
 
-function Header({
-  changeNavbar,
-  logoutHandler,
-  isLogin,
-  loginHandler,
-  handleModal,
-  userInfo
-}) {
+function Header() {
+  const appData = useContext(dataContext);
+  let { isLogin } = appData.data;
+  let { changeNavbar, logoutHandler, handleModal } = appData;
   return (
     <div className="header">
       <div className="header-logo">
@@ -30,7 +28,7 @@ function Header({
       </div>
       {isLogin ? (
         <>
-          <UserInfo data={userInfo} />
+          <UserInfo />
           <button className="logout" onClick={logoutHandler}>
             Log Out
           </button>

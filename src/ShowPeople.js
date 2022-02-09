@@ -1,7 +1,7 @@
 function ShowPeople({ people, toggleHandler }) {
-	const friends = people.houses.reduce((acc, cv) => {
-		return acc.concat(cv.people);
-	}, []);
+  const friends = people.houses.reduce((acc, cv) => {
+    return acc.concat(cv.people);
+  }, []);
 
   return (
     <div className="flex">

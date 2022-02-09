@@ -1,7 +1,11 @@
-import { NavLink } from "react-router-dom";
-import UserInfo from "./UserInfo";
+import { NavLink } from 'react-router-dom';
+import UserInfo from './UserInfo';
+import { useContext } from 'react';
+import { dataContext } from './context/dataContext';
 
-function Sidebar(props) {
+function Sidebar() {
+  const appData = useContext(dataContext);
+  let { isLogin } = appData.data;
   return (
     <div className="sidebar">
       <ul>
@@ -38,9 +42,9 @@ function Sidebar(props) {
         </li>
       </ul>
 
-      {props.isLogin && (
+      {isLogin && (
         <div className="bg">
-          <UserInfo data={props.userInfo} />
+          <UserInfo />
         </div>
       )}
     </div>
